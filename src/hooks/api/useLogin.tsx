@@ -5,9 +5,14 @@ import { APIResponse } from '@/types/api/responses/responseTypes';
 import { useAuthStore } from '@/stores/authStore';
 import { setAccessToken } from '@/utils/token';
 import { LoginResponseData } from '@/types/api/responses/authResponses';
+import { useNavigate } from 'react-router-dom';
+import { LINKS } from '@/constants/links';
+
 export const useLogin = () => {
   const { success, error } = useNotify();
   const { authenticate } = useAuthStore()
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: login,
 
@@ -27,6 +32,7 @@ export const useLogin = () => {
       console.log('Login successful!', accessToken, user);
       const message = res.message as string
       success(message, `Welcome back, ${user.username ?? 'user'}!`);
+      navigate(LINKS.HOME)
     },
 
     onError: (err: unknown) => {

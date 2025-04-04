@@ -12,6 +12,7 @@ const ProtectedRoutes: React.FC = () => {
     const verify = async () => {
       try {
         await checkAuth()
+
       } catch (err) {
         // Auth check failed — handled in store
       } finally {

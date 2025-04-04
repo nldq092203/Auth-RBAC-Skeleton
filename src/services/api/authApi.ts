@@ -1,6 +1,6 @@
 import { RegisterRequestBody, LoginRequestBody, ResendActivationEmailRequestBody } from "@/types/api/requests/authRequests"
 import { APIResponse } from "@/types/api/responses/responseTypes"
-import { RegisterResponseData, LoginResponseData, MeResponseData } from "@/types/api/responses/authResponses"
+import { RegisterResponseData, LoginResponseData, MeResponseData, RefreshTokenResponseData } from "@/types/api/responses/authResponses"
 import axios from "@/services/axiosInstance"
 import { clearAccessToken } from "@/utils/token"
 
@@ -24,7 +24,7 @@ export const checkAuth = async (): Promise<
     APIResponse<MeResponseData>
 > => {
   const response =
-    await axios.post<APIResponse<MeResponseData>>('/auth/me');
+    await axios.get<APIResponse<MeResponseData>>('/auth/me');
   return response.data;
 };
 
@@ -37,3 +37,8 @@ export const activateEmail = async(token: string): Promise<APIResponse<null>> =>
   const response = await axios.get<APIResponse<null>>(`auth/activation/${token}`);
   return response.data;
 }
+
+export const refreshToken = async (): Promise<APIResponse<RefreshTokenResponseData>> => {
+  const response = await axios.post("/auth/refresh", {}, { withCredentials: true });
+  return response.data;
+};

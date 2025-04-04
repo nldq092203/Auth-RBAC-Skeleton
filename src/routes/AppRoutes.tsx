@@ -4,9 +4,10 @@ import { LINKS } from '@/constants/links';
 import { Loader } from '@mantine/core';
 import AuthLayout from '@/layouts/AuthLayout';
 import EmailActionLayout from '@/layouts/EmailActionLayout';
+import ProtectedRoutes from './ProtectedRoutes';
 
 // const AppLayout = lazy(() => import('@/layouts/AppLayout'));
-// const HomePage = lazy(() => import('@/pages/HomePage'));
+const HomePage = lazy(() => import('@/pages/HomePage'));
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'));
 const ActivationPage = lazy(() => import('@/pages/auth/email/ActivationPage'));
@@ -17,6 +18,9 @@ const AppRoutes: React.FC = () => {
     return (
         <Suspense fallback={<Loader />}>
             <Routes>
+                <Route path={LINKS.HOME} element={<ProtectedRoutes />}>
+                    <Route index element={<HomePage />} />
+                </Route>
                 {/* Auth routes */}
                 <Route path={LINKS.AUTH} element={<AuthLayout />}>
                     <Route path="login" element={<LoginPage />} />
